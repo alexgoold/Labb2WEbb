@@ -19,12 +19,13 @@ namespace ProductDataAccess.Models
 		[BsonElement] 
 		public decimal Price { get; set; }
 
-		[BsonElement]
+		[BsonElement] 
 		public string ProductDescription { get; set; }
-		[BsonElement]
+
+		[BsonElement] 
 		public string ProductType { get; set; }
 
-		[BsonElement]
-		public string Status { get; set; }
+		[BsonElement] 
+		public bool Status { get; set; }
 	}
 }

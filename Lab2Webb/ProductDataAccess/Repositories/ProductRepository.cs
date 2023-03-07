@@ -14,12 +14,23 @@ namespace ProductDataAccess.Repositories
 
 		public ProductRepository()
 		{
-			var host = "localhost";
-			var databaseName = "NetChat";
+			var databaseName = "Labb2Webb";
 			var port = 27017;
-			var connectionString = $"mongodb://{host}:{port}";
-			var client = new MongoClient(connectionString);
+			var settings = MongoClientSettings.FromConnectionString("mongodb+srv://mongo:mongo123@cluster0.t4yoico.mongodb.net/?retryWrites=true&w=majority");
+			var client = new MongoClient(settings);
 			var database = client.GetDatabase(databaseName);
+			_products =
+				database.GetCollection<ProductModel>("Prodcuts",
+					new MongoCollectionSettings() { AssignIdOnInsert = true });
 		}
+
+		///createProduct
+		///updateProduct
+		///deleteProduct
+		///discontinuedProduct
+		///getAllProducts
+		///getProductByName
+		///getProductById
+
 	}
 }
