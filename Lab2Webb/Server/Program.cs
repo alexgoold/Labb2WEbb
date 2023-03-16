@@ -27,6 +27,7 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();
 
 builder.Services.AddScoped<IProductRepository, ProductRepository>();
+builder.Services.AddScoped<ICustomerRepository, CustomerRepository>();
 
 var app = builder.Build();
 
@@ -53,6 +54,7 @@ app.UseRouting();
 app.UseIdentityServer();
 app.UseAuthorization();
 app.MapProductEndpoints();
+app.MapCustomerEndpoints();
 
 
 app.MapRazorPages();

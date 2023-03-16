@@ -19,7 +19,7 @@ public class CustomerModel
 	public string EmailAddress { get; set; }
 
 	[BsonElement]
-	public int PhoneNumber { get; set; }
+	public string PhoneNumber { get; set; }
 	[BsonElement]
 	public string Address { get; set; }
 

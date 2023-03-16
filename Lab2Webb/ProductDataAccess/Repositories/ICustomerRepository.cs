@@ -13,6 +13,8 @@ public interface ICustomerRepository
 
 	Task<CustomerDTO[]> GetCustomerByEmail(string email);
 
+	Task<bool> CheckExists(ObjectId id);
+
 	CustomerModel ConvertToModel(CustomerDTO dto);
 
 	CustomerDTO ConvertToDto (CustomerModel model);

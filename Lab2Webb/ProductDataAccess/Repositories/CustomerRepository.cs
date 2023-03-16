@@ -54,7 +54,11 @@ public class CustomerRepository : ICustomerRepository
 		return all.ToList().Select(ConvertToDto).ToArray();
 
 	}
-
+	public async Task<bool> CheckExists(ObjectId id)
+	{
+		var filter = Builders<CustomerModel>.Filter.Eq("Id", id);
+		return await _customers.Find(filter).CountDocumentsAsync() > 0;
+	}
 
 	public CustomerModel ConvertToModel(CustomerDTO dto)
 	{
