@@ -1,8 +1,10 @@
 using Lab2Webb.Server.Data;
+using Lab2Webb.Server.Extensions;
 using Lab2Webb.Server.Models;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.ResponseCompression;
 using Microsoft.EntityFrameworkCore;
+using ProductDataAccess.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -23,6 +25,8 @@ builder.Services.AddAuthentication()
 
 builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();
+
+builder.Services.AddScoped<ProductRepository>();
 
 var app = builder.Build();
 
@@ -48,6 +52,7 @@ app.UseRouting();
 
 app.UseIdentityServer();
 app.UseAuthorization();
+app.MapProductEndpoints();
 
 
 app.MapRazorPages();
