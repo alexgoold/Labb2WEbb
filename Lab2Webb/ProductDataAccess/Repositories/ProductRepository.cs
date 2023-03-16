@@ -11,7 +11,7 @@ using ProductDataAccess.Models;
 
 namespace ProductDataAccess.Repositories
 {
-	public class ProductRepository
+	public class ProductRepository : IProductRepository
 	{
 		private readonly IMongoCollection<ProductModel> _products;
 
@@ -96,7 +96,7 @@ namespace ProductDataAccess.Repositories
 		}
 
 
-		private ProductModel ConvertToModel(ProductDTO dto)
+		public ProductModel ConvertToModel(ProductDTO dto)
 		{
 			return new ProductModel()
 			{
@@ -109,7 +109,7 @@ namespace ProductDataAccess.Repositories
 
 		}
 
-		private ProductDTO ConvertToDto(ProductModel model)
+		public ProductDTO ConvertToDto(ProductModel model)
 		{
 			return new ProductDTO()
 			{
@@ -120,6 +120,12 @@ namespace ProductDataAccess.Repositories
 				Status = model.Status,
 
 			};
+		}
+
+		public async Task<bool> CheckExists(ObjectId id)
+		{
+			var filter = Builders<ProductModel>.Filter.Eq("ProductId", id);
+			return await _products.Find(filter).CountDocumentsAsync() > 0;
 		}
 	}
 }

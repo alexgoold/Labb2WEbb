@@ -17,7 +17,6 @@ namespace ProductDataAccess.Repositories
 		public OrderRepository()
 		{
 			var databaseName = "Labb2Webb";
-			var port = 27017;
 			var settings = MongoClientSettings.FromConnectionString("mongodb+srv://mongo:mongo123@cluster0.t4yoico.mongodb.net/test");
 			var client = new MongoClient(settings);
 			var database = client.GetDatabase(databaseName);
@@ -33,5 +32,5 @@ namespace ProductDataAccess.Repositories
 
 		}
 
-	}
+	
 }

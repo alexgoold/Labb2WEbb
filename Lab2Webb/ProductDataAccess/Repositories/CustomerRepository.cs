@@ -5,7 +5,7 @@ using ProductDataAccess.Models;
 
 namespace ProductDataAccess.Repositories;
 
-public class CustomerRepository
+public class CustomerRepository : ICustomerRepository
 {
 	private readonly IMongoCollection<CustomerModel> _customers;
 
@@ -56,7 +56,7 @@ public class CustomerRepository
 	}
 
 
-	private CustomerModel ConvertToModel(CustomerDTO dto)
+	public CustomerModel ConvertToModel(CustomerDTO dto)
 	{
 		return new CustomerModel()
 		{
@@ -69,7 +69,7 @@ public class CustomerRepository
 
 	}
 
-	private CustomerDTO ConvertToDto(CustomerModel model)
+	public CustomerDTO ConvertToDto(CustomerModel model)
 	{
 		return new CustomerDTO()
 		{

@@ -1,5 +1,6 @@
 ﻿using Lab2Webb.Shared.DTOs;
 using MongoDB.Bson;
+using MongoDB.Driver;
 using ProductDataAccess.Repositories;
 
 namespace Lab2Webb.Server.Extensions;
@@ -9,46 +10,72 @@ public static class WebApplicationEndpointExtensions
 {
 	public static WebApplication MapProductEndpoints(this WebApplication app)
 	{
-		//  / createProduct			MapPost
-		app.MapPost("/createProduct", async (ProductRepository repo, ProductDTO product) =>
-		{
-			await repo.CreateProduct(product);
+		app.MapPost("/createProduct", CreateProductHandler);
 
-		});
-		//	/ updateProduct			MapPut
-		app.MapPut("/updateProduct", async (ProductRepository repo, ObjectId id, ProductDTO product) =>
-		{
-			await repo.UpdateProduct(id, product);
-		});
-		//	/ deleteProduct			MapDelete
-		app.MapDelete("/deleteProduct", async (ProductRepository repo, ObjectId id) =>
-		{
-			await repo.DeleteProduct(id);
-		});
-		//	/ discontinuedProduct   MapPatch
-		app.MapPatch("/discontinuedProduct", async (ProductRepository repo, ObjectId id, bool isDiscontinued) =>
-		{
-			await repo.DiscontinuedProduct(id, isDiscontinued);
-		});
-		//	/ getAllProducts		Get
-		app.MapGet("/allProducts", async (ProductRepository repo) =>
-		{
-			await repo.GetAllProducts();
-		});
-		//	/ getProductByName		Get
-		app.MapGet("/productByName", async (ProductRepository repo, string name) =>
-		{
-			await repo.GetProductByName(name);
-		});
-		//	/ getProductById		Get
-		app.MapGet("/productById", async (ProductRepository repo, ObjectId id) =>
-		{
-			await repo.GetProductById(id);
-		});
+		app.MapPut("/updateProduct", UpdateProductHandler);
+
+		app.MapDelete("/deleteProduct", DeleteProductHandler);
+
+		app.MapPatch("/discontinuedProduct", DiscontinuedProduct);
+
+		app.MapGet("/allProducts", AllProductsHandler);
+
+		app.MapGet("/productByName",ProductByName);
+
+		app.MapGet("/productById", ProductById);
+		
 
 		return app;
 	}
 
-	
-	
+	private static async Task<IResult> ProductById(IProductRepository repo, ObjectId id)
+	{
+		
+		return Results.Ok(await repo.GetProductById(id));
+	}
+
+	private static async Task<IResult> ProductByName(IProductRepository repo, string name)
+	{
+		
+		;
+		return Results.Ok(await repo.GetProductByName(name));
+	}
+		
+
+	private static async Task<IResult> AllProductsHandler(IProductRepository repo)
+	{
+		return Results.Ok(await repo.GetAllProducts());
+	}
+
+	private static async Task<IResult> DeleteProductHandler(IProductRepository repo, ObjectId id)
+	{
+		if (await repo.CheckExists(id) == false) return Results.NotFound();
+
+		await repo.DeleteProduct(id);
+		return Results.Ok();
+	}
+
+	public static async Task<IResult> CreateProductHandler(IProductRepository repo, ProductDTO product)
+	{
+		await repo.CreateProduct(product);
+		return Results.Ok();
+	}
+
+	public static async Task<IResult> UpdateProductHandler(IProductRepository repo, ObjectId id, ProductDTO product)
+	{
+		if (await repo.CheckExists(id)) return Results.NotFound();
+
+		await repo.UpdateProduct(id, product);
+		return Results.Ok();
+	}
+
+	public static async Task<IResult> DiscontinuedProduct(IProductRepository repo, ObjectId id, bool isDiscontinued)
+	{
+		await repo.DiscontinuedProduct(id, isDiscontinued);
+		return Results.Ok();
+	}
+
+
+
+
 }
