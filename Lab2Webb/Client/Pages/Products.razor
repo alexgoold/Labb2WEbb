@@ -6,26 +6,39 @@
 @inject NavigationManager _navigationManager
 @inject HttpClient HttpClient
 
+<h1>Products</h1>
+
+
 
 <ul class="container mt-3 list-unstyled">
 	<Virtualize Items="ProductList.OrderByDescending(p=>p.Price).ToArray()" Context="product">
-		<li class="card-header m-2">
-			<img src="@product.ImgURL" alt="a lightbulb" class="img-thumbnail" />
-			<div>
-				<table>
-					<tr>
-						<th>Name</th>
-						<th>Description</th>
-						<th>WarehouseStatus</th>
-						<th>Price</th>
-					</tr>
-					<tr>
-						<th class="text-body fw-light m-2">@product.Name</th>
-						<th class="text-body fw-light m-2">@product.Description</th>
-						<th class="text-body fw-light m-2">@product.Status</th>
-						<th class="text-body fw-light m-2">@product.Price</th>
-					</tr>
-				</table>
+		<li class="card-header m-1">
+			<div class="container d-inline-block">
+				<div class="row justify-content-center">
+					<div class="col-md-8 col-lg-6 col-xl-4">
+						<div class="card text-black">
+							<img src="@product.ImgURL"
+							     class="card-img-top" alt="Lightbulb" />
+							<div class="card-body">
+								<div class="text-center">
+									<h5 class="card-title">@product.Name</h5>
+									<p class="text-muted mb-4">@product.Description</p>
+								</div>
+								<div>
+									<div class="d-flex justify-content-between">
+										<span>Price</span><span>@product.Price</span>
+									</div>
+									<div class="d-flex justify-content-between">
+										<span>Type</span><span>@product.Type</span>
+									</div>
+									<div class="d-flex justify-content-between">
+										<span>In stock</span><span>@product.Status</span>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
 			</div>
 		</li>
 	</Virtualize>
