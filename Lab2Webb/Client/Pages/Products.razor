@@ -1,0 +1,34 @@
+﻿@page "/products"
+@using Microsoft.AspNetCore.Authorization
+@using Microsoft.AspNetCore.Components.WebAssembly.Authentication
+@using Lab2Webb.Shared
+
+@inject NavigationManager _navigationManager
+@inject HttpClient HttpClient
+
+
+<ul class="container mt-3 list-unstyled">
+	<Virtualize Items="ProductList.OrderByDescending(p=>p.Price).ToArray()" Context="product">
+		<li class="card-header m-2">
+			<img src="@product.ImgURL" alt="a lightbulb" class="img-thumbnail" />
+			<div>
+				<table>
+					<tr>
+						<th>Name</th>
+						<th>Description</th>
+						<th>WarehouseStatus</th>
+						<th>Price</th>
+					</tr>
+					<tr>
+						<th class="text-body fw-light m-2">@product.Name</th>
+						<th class="text-body fw-light m-2">@product.Description</th>
+						<th class="text-body fw-light m-2">@product.Status</th>
+						<th class="text-body fw-light m-2">@product.Price</th>
+					</tr>
+				</table>
+			</div>
+		</li>
+	</Virtualize>
+</ul>
+
+

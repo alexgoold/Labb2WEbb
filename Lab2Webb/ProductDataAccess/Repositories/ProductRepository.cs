@@ -45,7 +45,8 @@ namespace ProductDataAccess.Repositories
 				.Set("ProductDescription", product.Description)
 				.Set("Price", product.Price)
 				.Set("ProductType", product.Type)
-				.Set("Status", product.Status);
+				.Set("Status", product.Status)
+				.Set("ImgURL", product.ImgURL);
 
 			await _products.UpdateOneAsync(filter, update);
 
@@ -106,6 +107,7 @@ namespace ProductDataAccess.Repositories
 				ProductType = dto.Type,
 				Status = dto.Status,
 				ProductId = new ObjectId(dto.ProductId),
+				ImgURL = dto.ImgURL,
 			};
 
 		}
@@ -120,6 +122,7 @@ namespace ProductDataAccess.Repositories
 				Type = model.ProductType,
 				Status = model.Status,
 				ProductId = model.ProductId.ToString(),
+				ImgURL = model.ImgURL,
 
 			};
 		}

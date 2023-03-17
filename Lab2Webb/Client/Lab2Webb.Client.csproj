@@ -15,6 +15,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\ProductDataAccess\ProductDataAccess.csproj" />
     <ProjectReference Include="..\Shared\Lab2Webb.Shared.csproj" />
   </ItemGroup>
 

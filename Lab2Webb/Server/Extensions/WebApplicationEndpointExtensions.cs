@@ -64,7 +64,7 @@ public static class WebApplicationEndpointExtensions
 
 	public static async Task<IResult> UpdateProductHandler(IProductRepository repo, ObjectId id, ProductDTO product)
 	{
-		if (await repo.CheckExists(id)) return Results.NotFound();
+		if (await repo.CheckExists(id)== false) return Results.NotFound();
 
 		await repo.UpdateProduct(id, product);
 		return Results.Ok();

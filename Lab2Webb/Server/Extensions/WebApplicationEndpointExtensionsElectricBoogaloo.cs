@@ -28,14 +28,12 @@ public static class WebApplicationEndponitExtensionsElectricBoogaloo
 	private static async Task<IResult> DeleteOrderHandler(IOrderRepository repo, ObjectId id)
 	{
 		await repo.DeleteOrder(id);
-		return Results.Ok();
+		return Results.Ok(); 
 	}
 
 	private static async Task<IResult> CreateOrderHandler(IOrderRepository repo, ObjectId id, ProductDTO[] products)
 	{
-		
 		await repo.CreateOrder(id, products);
-		var breakpoint = 4;
 		return Results.Ok();
 	}
 

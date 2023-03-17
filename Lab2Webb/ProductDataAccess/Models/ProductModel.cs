@@ -27,5 +27,7 @@ namespace ProductDataAccess.Models
 
 		[BsonElement] 
 		public bool Status { get; set; }
+
+		[BsonElement] public string ImgURL { get; set; }
 	}
 }
