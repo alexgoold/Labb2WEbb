@@ -54,6 +54,7 @@ public class CustomerRepository : ICustomerRepository
 		return all.ToList().Select(ConvertToDto).ToArray();
 
 	}
+	
 	public async Task<bool> CheckExists(ObjectId id)
 	{
 		var filter = Builders<CustomerModel>.Filter.Eq("Id", id);
@@ -69,6 +70,7 @@ public class CustomerRepository : ICustomerRepository
 			EmailAddress = dto.Email,
 			PhoneNumber = dto.Phone,
 			Address = dto.Address,
+			Id = new ObjectId(dto.Id)
 		};
 
 	}
@@ -82,6 +84,8 @@ public class CustomerRepository : ICustomerRepository
 			Email = model.EmailAddress,
 			Phone = model.PhoneNumber,
 			Address = model.Address,
+			Id = model.Id.ToString(),
 		};
 	}
+
 }

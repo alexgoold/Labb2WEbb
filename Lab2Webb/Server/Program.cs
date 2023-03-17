@@ -20,7 +20,11 @@ builder.Services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.R
 builder.Services.AddIdentityServer()
 	.AddApiAuthorization<ApplicationUser, ApplicationDbContext>();
 
-builder.Services.AddAuthentication()
+builder.Services.AddAuthentication().AddGoogle(googleOptions =>
+	{
+		googleOptions.ClientId = builder.Configuration["Authentication:Google:ClientId"];
+		googleOptions.ClientSecret = builder.Configuration["Authentication:Google:ClientSecret"];
+	})
 	.AddIdentityServerJwt();
 
 builder.Services.AddControllersWithViews();
@@ -28,6 +32,7 @@ builder.Services.AddRazorPages();
 
 builder.Services.AddScoped<IProductRepository, ProductRepository>();
 builder.Services.AddScoped<ICustomerRepository, CustomerRepository>();
+builder.Services.AddScoped<IOrderRepository, OrderRepository>();
 
 var app = builder.Build();
 

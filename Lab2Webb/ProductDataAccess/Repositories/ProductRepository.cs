@@ -105,6 +105,7 @@ namespace ProductDataAccess.Repositories
 				Price = dto.Price,
 				ProductType = dto.Type,
 				Status = dto.Status,
+				ProductId = new ObjectId(dto.ProductId),
 			};
 
 		}
@@ -118,6 +119,7 @@ namespace ProductDataAccess.Repositories
 				Price = model.Price,
 				Type = model.ProductType,
 				Status = model.Status,
+				ProductId = model.ProductId.ToString(),
 
 			};
 		}

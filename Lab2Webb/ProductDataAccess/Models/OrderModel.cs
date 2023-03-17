@@ -17,7 +17,7 @@ namespace ProductDataAccess.Models
 		public CustomerModel Customer { get; set; }
 
 		[BsonElement]
-		public List<ProductModel> Products { get; set; }
+		public ProductModel[] Products { get; set; }
 
 		[BsonElement]
 		public DateTime DateOrdered { get; set; }

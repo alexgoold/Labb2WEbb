@@ -1,5 +1,6 @@
 ﻿using Lab2Webb.Shared.DTOs;
 using MongoDB.Bson;
+using ProductDataAccess.Models;
 using ProductDataAccess.Repositories;
 
 namespace Lab2Webb.Server.Extensions;
@@ -16,8 +17,26 @@ public static class WebApplicationEndponitExtensionsElectricBoogaloo
 
 		app.MapGet("/getByEmail", GetByEmailHandler);
 
+		app.MapPost("/createOrder", CreateOrderHandler);
+
+		app.MapDelete("/deleteOrder", DeleteOrderHandler);
+
 
 		return app;
+	}
+
+	private static async Task<IResult> DeleteOrderHandler(IOrderRepository repo, ObjectId id)
+	{
+		await repo.DeleteOrder(id);
+		return Results.Ok();
+	}
+
+	private static async Task<IResult> CreateOrderHandler(IOrderRepository repo, ObjectId id, ProductDTO[] products)
+	{
+		
+		await repo.CreateOrder(id, products);
+		var breakpoint = 4;
+		return Results.Ok();
 	}
 
 	private static async Task<IResult> CreateCustomerHandler(ICustomerRepository repo, CustomerDTO dto)
