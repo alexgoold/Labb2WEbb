@@ -99,16 +99,29 @@ namespace ProductDataAccess.Repositories
 
 		public ProductModel ConvertToModel(ProductDTO dto)
 		{
-			return new ProductModel()
+			if (dto.ProductId == null)
 			{
-				ProductName = dto.Name,
-				ProductDescription = dto.Description,
-				Price = dto.Price,
-				ProductType = dto.Type,
-				Status = dto.Status,
-				ProductId = new ObjectId(dto.ProductId),
-				ImgURL = dto.ImgURL,
-			};
+				return new ProductModel()
+				{
+					ProductName = dto.Name,
+					ProductDescription = dto.Description,
+					Price = dto.Price,
+					ProductType = dto.Type,
+					Status = dto.Status,
+					ImgURL = dto.ImgURL,
+				};
+			}
+			return new ProductModel()
+				{
+					ProductName = dto.Name,
+					ProductDescription = dto.Description,
+					Price = dto.Price,
+					ProductType = dto.Type,
+					Status = dto.Status,
+					ProductId = new ObjectId(dto.ProductId),
+					ImgURL = dto.ImgURL,
+				};
+
 
 		}
 

@@ -63,6 +63,18 @@ public class CustomerRepository : ICustomerRepository
 
 	public CustomerModel ConvertToModel(CustomerDTO dto)
 	{
+
+		if (dto.Id == null)
+		{
+			return new CustomerModel()
+			{
+				FirstName = dto.FirstName,
+				LastName = dto.LastName,
+				EmailAddress = dto.Email,
+				PhoneNumber = dto.Phone,
+				Address = dto.Address
+			};
+		}
 		return new CustomerModel()
 		{
 			FirstName = dto.FirstName,

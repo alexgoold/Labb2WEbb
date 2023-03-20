@@ -32,13 +32,11 @@ public static class WebApplicationEndpointExtensions
 
 	private static async Task<IResult> ProductById(IProductRepository repo, ObjectId id)
 	{
-		
 		return Results.Ok(await repo.GetProductById(id));
 	}
 
 	private static async Task<IResult> ProductByName(IProductRepository repo, string name)
 	{
-		
 		return Results.Ok(await repo.GetProductByName(name));
 	}
 		
