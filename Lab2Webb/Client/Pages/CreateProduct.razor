@@ -63,16 +63,14 @@
 
 <h3>Update Product</h3>
 
-<div class="col-3">
-	<h4>Get Product By Name</h4>
+<select id="SearchStateId" name="stateId" @onchange="GetProdByName" class="form-control">
+	<option>Choose A Product</option>
+	@foreach (var state in ProductList)
+	{
+		<option value="@state.Name">@state.Name</option>
+	}
+</select>
 
-	<EditForm Model="ProductToUpdate" OnValidSubmit="GetProdFromName">
-		<DataAnnotationsValidator />
-		<InputText class=" dropdown form-control m-2" @bind-Value="ProductToUpdate.Name"></InputText>
-		<button>Search</button>
-		<ValidationSummary />
-	</EditForm>
-</div>
 
 <EditForm Model="ProductToUpdate" OnValidSubmit="UpdateProduct">
 	<DataAnnotationsValidator />
@@ -127,11 +125,12 @@
 
 <h3>Delete Product</h3>
 
-<select id="SearchStateId" name="stateId" @onchange="Callback" class="form-control1">
+<select id="ProductsByName" name="ProductName" @onchange="GetProdToDelete" class="form-control">
 	<option>Choose A Product</option>
-	@foreach (var state in ProductList)
+	@foreach (var product in ProductList)
 	{
-		<option value="@state.Name">@state.Name</option>
+		<option value="@product.Name">@product.Name</option>
 	}
 </select>
+<button class="btn btn-danger" @onclick="DeleteProduct">Delete</button>
 

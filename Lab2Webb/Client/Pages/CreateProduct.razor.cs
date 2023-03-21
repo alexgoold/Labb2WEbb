@@ -12,10 +12,7 @@ namespace Lab2Webb.Client.Pages
 		public ProductDTO Product { get; set; } = new();
 
 		public ProductDTO ProductToUpdate { get; set; } = new();
-
-		public IProductRepository _ProductRepository { get; set; }
-		public Virtualize<ProductDTO> ProductContainer { get; set; } = new();
-
+		public ProductDTO ProductToDelete { get; set; } = new();
 
 		public List<ProductDTO> ProductList { get; set; } = new();
 
@@ -32,16 +29,13 @@ namespace Lab2Webb.Client.Pages
 			await HttpClient.PutAsJsonAsync(HttpClient.BaseAddress + $"updateProduct?id={ProductToUpdate.ProductId}", ProductToUpdate);
 			
 			ProductToUpdate = new ProductDTO();
+			await InvokeAsync(() =>
+			{
+
+				StateHasChanged();
+			});
 		}
-
-
-		async Task GetProdFromName()
-		{
-			var prod = await HttpClient.GetFromJsonAsync<ProductDTO[]>(HttpClient.BaseAddress + $"productByName?name={ProductToUpdate.Name}");
-
-			ProductToUpdate = prod[0];
-		}
-
+		
 		async Task GetProducts()
 		{
 			ProductList = new List<ProductDTO>();
@@ -50,13 +44,6 @@ namespace Lab2Webb.Client.Pages
 
 			ProductList.AddRange(prods);
 
-
-		}
-		async Task ResetList()
-		{
-			await GetProducts();
-			await ProductContainer.RefreshDataAsync();
-			StateHasChanged();
 
 		}
 		protected override async Task OnInitializedAsync()
@@ -69,16 +56,43 @@ namespace Lab2Webb.Client.Pages
 
 		async Task DeleteProduct()
 		{
-			await HttpClient.DeleteFromJsonAsync<ProductDTO>(HttpClient.BaseAddress + $"deleteProduct?id={ProductToUpdate.ProductId}");
+			await HttpClient.DeleteFromJsonAsync<ProductDTO>(HttpClient.BaseAddress + $"deleteProduct?id={ProductToDelete.ProductId}");
+			ProductToDelete = new();
+			await  InvokeAsync(() =>
+			{
+
+				StateHasChanged();
+			});
+
 		}
 
-		async Task Callback(ChangeEventArgs obj)
+		async Task GetProdToDelete(ChangeEventArgs obj)
 		{
 			var chosenProduct = obj.Value;
 
 			var prod = await HttpClient.GetFromJsonAsync<ProductDTO[]>(HttpClient.BaseAddress + $"productByName?name={chosenProduct}");
 
-			ProductToUpdate = prod[0];
+			if (prod.Length > 0)
+			{
+				ProductToDelete = prod[0];
+
+			}
+			
+
+		}
+
+		async Task GetProdByName(ChangeEventArgs obj)
+		{
+			var chosenProduct = obj.Value;
+
+			var prod = await HttpClient.GetFromJsonAsync<ProductDTO[]>(HttpClient.BaseAddress + $"productByName?name={chosenProduct}");
+
+			if (prod.Length > 0)
+			{
+				ProductToUpdate = prod[0];
+
+			}
+			
 		}
 	}
 }
