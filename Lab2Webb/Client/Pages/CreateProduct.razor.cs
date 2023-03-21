@@ -29,6 +29,7 @@ namespace Lab2Webb.Client.Pages
 			await HttpClient.PutAsJsonAsync(HttpClient.BaseAddress + $"updateProduct?id={ProductToUpdate.ProductId}", ProductToUpdate);
 			
 			ProductToUpdate = new ProductDTO();
+			await GetProducts();
 			await InvokeAsync(() =>
 			{
 
@@ -58,6 +59,7 @@ namespace Lab2Webb.Client.Pages
 		{
 			await HttpClient.DeleteFromJsonAsync<ProductDTO>(HttpClient.BaseAddress + $"deleteProduct?id={ProductToDelete.ProductId}");
 			ProductToDelete = new();
+			await GetProducts();
 			await  InvokeAsync(() =>
 			{
 
