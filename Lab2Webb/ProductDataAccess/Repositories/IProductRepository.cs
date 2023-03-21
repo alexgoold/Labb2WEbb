@@ -30,6 +30,8 @@ namespace ProductDataAccess.Repositories
 
 		Task<bool> CheckExists(ObjectId id);
 
+		Task<bool> CheckExistsName(string name);
+
 		ProductModel ConvertToModel(ProductDTO dto);
 
 		ProductDTO ConvertToDto(ProductModel model);

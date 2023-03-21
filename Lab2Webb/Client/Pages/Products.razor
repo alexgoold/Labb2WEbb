@@ -8,6 +8,40 @@
 
 <h1 class="text-center">Products</h1>
 
+<div>
+	<div class="col-3">
+		<h3>Get Product By Id</h3>
+
+		<EditForm Model="CurrentProduct" OnValidSubmit="GetProdFromId">
+			<DataAnnotationsValidator />
+			<InputText class="form-control m-2" @bind-Value="CurrentProduct.ProductId"></InputText>
+			<button>Search</button>
+			<ValidationSummary />
+		</EditForm>
+	</div>
+
+	<div>
+		<button @onclick="ResetList">Reset</button>
+	</div>
+
+	<div class="col-3">
+		<h3>Get Product By Name</h3>
+
+		<EditForm Model="CurrentProduct" OnValidSubmit="GetProdFromName">
+			<DataAnnotationsValidator />
+			<InputText class="form-control m-2" @bind-Value="CurrentProduct.Name"></InputText>
+			<button>Search</button>
+			<ValidationSummary />
+		</EditForm>
+	</div>
+</div>
+
+
+<div>
+	<button @onclick="ResetList">Reset</button>
+</div>
+
+
 <table class="table">
 	<thead>
 	<tr>
@@ -20,30 +54,32 @@
 	</tr>
 	</thead>
 
-<tbody>
-<Virtualize Items="ProductList.OrderByDescending(p=>p.Price).ToArray()" Context="product">
-	<tr>
-		<td>
-			<img src="@product.ImgURL" alt="product image" />
-		</td>
-		<td class="align-middle">
-			@product.Name
-		</td>
-		<td class="align-middle" >
-			@product.Description
-		</td>
-		<td class="align-middle">
-			@product.Type
-		</td>
-		<td class="align-middle">
-			@product.Status
-		</td>
-		<td class="align-middle">
-			@product.Price
-		</td>
-	</tr>
-</Virtualize>
-</tbody>
+	<tbody>
+	
+	
+	<Virtualize @ref="ProductContainer" Items="ProductList.OrderByDescending(p => p.Price).ToArray()" Context="product">
+		<tr>
+			<td>
+				<img src="@product.ImgURL" alt="product image"/>
+			</td>
+			<td class="align-middle">
+				@product.Name
+			</td>
+			<td class="align-middle">
+				@product.Description
+			</td>
+			<td class="align-middle">
+				@product.Type
+			</td>
+			<td class="align-middle">
+				@product.Status
+			</td>
+			<td class="align-middle">
+				@product.Price
+			</td>
+		</tr>
+	</Virtualize>
+	</tbody>
 </table>
 
 

@@ -145,5 +145,11 @@ namespace ProductDataAccess.Repositories
 			var filter = Builders<ProductModel>.Filter.Eq("ProductId", id);
 			return await _products.Find(filter).CountDocumentsAsync() > 0;
 		}
+
+		public async Task<bool> CheckExistsName(string name)
+		{
+			var filter = Builders<ProductModel>.Filter.Eq("Name", name);
+			return await _products.Find(filter).CountDocumentsAsync() > 0;
+		}
 	}
 }

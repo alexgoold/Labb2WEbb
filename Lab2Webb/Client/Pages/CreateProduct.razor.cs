@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Components;
 using ProductDataAccess.Repositories;
 using System.Net.Http.Json;
 using MongoDB.Bson;
+using Microsoft.AspNetCore.Components.Web.Virtualization;
 
 namespace Lab2Webb.Client.Pages
 {
@@ -13,8 +14,10 @@ namespace Lab2Webb.Client.Pages
 		public ProductDTO ProductToUpdate { get; set; } = new();
 
 		public IProductRepository _ProductRepository { get; set; }
+		public Virtualize<ProductDTO> ProductContainer { get; set; } = new();
 
-		public List<ProductDTO> ProductList { get; set; }
+
+		public List<ProductDTO> ProductList { get; set; } = new();
 
 		async Task CreateNewProduct()
 		{
@@ -26,7 +29,17 @@ namespace Lab2Webb.Client.Pages
 
 		async Task UpdateProduct()
 		{
+			await HttpClient.PutAsJsonAsync(HttpClient.BaseAddress + $"updateProduct?id={ProductToUpdate.ProductId}", ProductToUpdate);
+			
+			ProductToUpdate = new ProductDTO();
+		}
 
+
+		async Task GetProdFromName()
+		{
+			var prod = await HttpClient.GetFromJsonAsync<ProductDTO[]>(HttpClient.BaseAddress + $"productByName?name={ProductToUpdate.Name}");
+
+			ProductToUpdate = prod[0];
 		}
 
 		async Task GetProducts()
@@ -39,6 +52,13 @@ namespace Lab2Webb.Client.Pages
 
 
 		}
+		async Task ResetList()
+		{
+			await GetProducts();
+			await ProductContainer.RefreshDataAsync();
+			StateHasChanged();
+
+		}
 		protected override async Task OnInitializedAsync()
 		{
 			await GetProducts();
@@ -47,11 +67,18 @@ namespace Lab2Webb.Client.Pages
 
 		}
 
-		private string SelectedProductId
+		async Task DeleteProduct()
 		{
-			get => ProductToUpdate.ProductId.ToString();
+			await HttpClient.DeleteFromJsonAsync<ProductDTO>(HttpClient.BaseAddress + $"deleteProduct?id={ProductToUpdate.ProductId}");
+		}
 
-			set => ProductToUpdate = ProductList.SingleOrDefault(p => p.ProductId == value);
+		async Task Callback(ChangeEventArgs obj)
+		{
+			var chosenProduct = obj.Value;
+
+			var prod = await HttpClient.GetFromJsonAsync<ProductDTO[]>(HttpClient.BaseAddress + $"productByName?name={chosenProduct}");
+
+			ProductToUpdate = prod[0];
 		}
 	}
 }

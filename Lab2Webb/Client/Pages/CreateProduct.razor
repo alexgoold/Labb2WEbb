@@ -2,8 +2,8 @@
 @using Microsoft.AspNetCore.Authorization
 @using Microsoft.AspNetCore.Components.WebAssembly.Authentication
 @using Lab2Webb.Shared
+@using Lab2Webb.Shared.DTOs
 @using MongoDB.Bson
-
 
 
 @inject NavigationManager _navigationManager
@@ -58,26 +58,25 @@
 	<div class="text-center">
 		<button class="m-2 btn btn-primary">Create product</button>
 	</div>
-	
-
 	<ValidationSummary/>
 </EditForm>
 
-
 <h3>Update Product</h3>
 
+<div class="col-3">
+	<h4>Get Product By Name</h4>
 
+	<EditForm Model="ProductToUpdate" OnValidSubmit="GetProdFromName">
+		<DataAnnotationsValidator />
+		<InputText class=" dropdown form-control m-2" @bind-Value="ProductToUpdate.Name"></InputText>
+		<button>Search</button>
+		<ValidationSummary />
+	</EditForm>
+</div>
 
 <EditForm Model="ProductToUpdate" OnValidSubmit="UpdateProduct">
 	<DataAnnotationsValidator />
 	<hr />
-	<InputSelect @bind-Value="@SelectedProductId" class=" form-control">
-		<option>Select Product</option>
-		@foreach (var product in ProductList)
-		{
-		<option value="ProductToUpdate.ProductId">@product.Name</option>
-		}
-	</InputSelect>
 	<div class="row m-2">
 		<label class="col-sm-2 col-form-label" for="name">Name</label>
 		<div class="col-sm-10">
@@ -123,6 +122,16 @@
 		<button class="m-2 btn btn-primary">Update product</button>
 	</div>
 
-
 	<ValidationSummary />
 </EditForm>
+
+<h3>Delete Product</h3>
+
+<select id="SearchStateId" name="stateId" @onchange="Callback" class="form-control1">
+	<option>Choose A Product</option>
+	@foreach (var state in ProductList)
+	{
+		<option value="@state.Name">@state.Name</option>
+	}
+</select>
+

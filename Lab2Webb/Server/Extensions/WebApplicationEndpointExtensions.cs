@@ -37,6 +37,7 @@ public static class WebApplicationEndpointExtensions
 
 	private static async Task<IResult> ProductByName(IProductRepository repo, string name)
 	{
+
 		return Results.Ok(await repo.GetProductByName(name));
 	}
 		
