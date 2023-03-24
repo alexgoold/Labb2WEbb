@@ -1,13 +1,6 @@
 ﻿using Lab2Webb.Shared.DTOs;
 using MongoDB.Bson;
-using MongoDB.Driver;
 using ProductDataAccess.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Amazon.Runtime;
 
 namespace ProductDataAccess.Repositories
 {
@@ -20,7 +13,7 @@ namespace ProductDataAccess.Repositories
 
 		Task DeleteProduct(ObjectId id);
 
-		Task DiscontinuedProduct(ObjectId id, bool isDiscontinued);
+		Task DiscontinuedProduct(ObjectId id, ProductDTO isDiscontinued);
 
 		Task<ProductDTO[]> GetAllProducts();
 

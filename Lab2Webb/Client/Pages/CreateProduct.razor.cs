@@ -1,9 +1,6 @@
 ﻿using Lab2Webb.Shared.DTOs;
 using Microsoft.AspNetCore.Components;
-using ProductDataAccess.Repositories;
 using System.Net.Http.Json;
-using MongoDB.Bson;
-using Microsoft.AspNetCore.Components.Web.Virtualization;
 
 namespace Lab2Webb.Client.Pages
 {
@@ -18,30 +15,30 @@ namespace Lab2Webb.Client.Pages
 
 		async Task CreateNewProduct()
 		{
-			await HttpClient.PostAsJsonAsync(HttpClient.BaseAddress + "createProduct", Product);
+			await HttpClient.PostAsJsonAsync("createProduct", Product);
 
 			Product = new ProductDTO();
+			await GetProducts();
+
+			StateHasChanged();
 
 		}
 
 		async Task UpdateProduct()
 		{
-			await HttpClient.PutAsJsonAsync(HttpClient.BaseAddress + $"updateProduct?id={ProductToUpdate.ProductId}", ProductToUpdate);
+			await HttpClient.PutAsJsonAsync($"updateProduct?id={ProductToUpdate.ProductId}", ProductToUpdate);
 			
 			ProductToUpdate = new ProductDTO();
 			await GetProducts();
-			await InvokeAsync(() =>
-			{
 
-				StateHasChanged();
-			});
+			StateHasChanged();
 		}
 		
 		async Task GetProducts()
 		{
 			ProductList = new List<ProductDTO>();
 
-			var prods = await HttpClient.GetFromJsonAsync<ProductDTO[]>(HttpClient.BaseAddress + "allProducts");
+			var prods = await HttpClient.GetFromJsonAsync<ProductDTO[]>("allProducts");
 
 			ProductList.AddRange(prods);
 
@@ -56,38 +53,44 @@ namespace Lab2Webb.Client.Pages
 		}
 
 		async Task DeleteProduct()
-		{
-			await HttpClient.DeleteFromJsonAsync<ProductDTO>(HttpClient.BaseAddress + $"deleteProduct?id={ProductToDelete.ProductId}");
-			ProductToDelete = new();
-			await GetProducts();
-			await  InvokeAsync(() =>
+		{ 
+			var response= await HttpClient.DeleteAsync($"deleteProduct?id={ProductToDelete.ProductId}");
+			if (response.IsSuccessStatusCode)
 			{
-
+				ProductToDelete = new ProductDTO();
+				await GetProducts();
 				StateHasChanged();
-			});
+			}
 
 		}
 
 		async Task GetProdToDelete(ChangeEventArgs obj)
 		{
+
 			var chosenProduct = obj.Value;
 
-			var prod = await HttpClient.GetFromJsonAsync<ProductDTO[]>(HttpClient.BaseAddress + $"productByName?name={chosenProduct}");
+			var prod = await HttpClient.GetFromJsonAsync<ProductDTO[]>($"productByName?name={chosenProduct}");
 
 			if (prod.Length > 0)
 			{
 				ProductToDelete = prod[0];
 
 			}
-			
+			await GetProducts();
+			StateHasChanged();
+
 
 		}
 
 		async Task GetProdByName(ChangeEventArgs obj)
 		{
+			//if (obj.Value == ProductToDelete.Name)
+			//{
+			//	return;
+			//}
 			var chosenProduct = obj.Value;
 
-			var prod = await HttpClient.GetFromJsonAsync<ProductDTO[]>(HttpClient.BaseAddress + $"productByName?name={chosenProduct}");
+			var prod = await HttpClient.GetFromJsonAsync<ProductDTO[]>($"productByName?name={chosenProduct}");
 
 			if (prod.Length > 0)
 			{

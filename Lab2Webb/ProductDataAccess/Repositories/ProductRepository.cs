@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
-using Lab2Webb.Shared.DTOs;
+﻿using Lab2Webb.Shared.DTOs;
 using MongoDB.Bson;
 using MongoDB.Driver;
 using ProductDataAccess.Models;
@@ -61,11 +55,11 @@ namespace ProductDataAccess.Repositories
 		}
 
 		///discontinuedProduct
-		public async Task DiscontinuedProduct(ObjectId id, bool isDiscontinued)
+		public async Task DiscontinuedProduct(ObjectId id, ProductDTO isDiscontinued)
 		{
 			var filter = Builders<ProductModel>.Filter.Eq("ProductId", id);
 			var update = Builders<ProductModel>.Update
-				.Set("Status", isDiscontinued );
+				.Set("Status", isDiscontinued.Status);
 
 			await _products.UpdateOneAsync(filter, update);
 		}

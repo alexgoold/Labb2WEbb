@@ -2,7 +2,6 @@
 using Lab2Webb.Shared.DTOs;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web.Virtualization;
-using ProductDataAccess.Repositories;
 
 namespace Lab2Webb.Client.Pages;
 
@@ -12,24 +11,29 @@ partial class Products : ComponentBase
 
 	public List<ProductDTO> ProductList { get; set; } = new();
 
-	public IProductRepository _ProductRepository { get; set; }
-	public Virtualize<ProductDTO> ProductContainer { get; set; } = new();
 
 
 	async Task GetProducts()
 	{
 		ProductList = new List<ProductDTO>();
 
-		var prods = await HttpClient.GetFromJsonAsync<ProductDTO[]>(HttpClient.BaseAddress+"allProducts");
+		var prods = await HttpClient.GetFromJsonAsync<ProductDTO[]>("allProducts");
 
 		ProductList.AddRange(prods);
+
+	}
+
+	async Task UpdateStockStatus(string id, ProductDTO product, bool status)
+	{
+		product.Status = !status;
+		await HttpClient.PutAsJsonAsync($"discontinuedProduct?id={id}", product);
+		Console.WriteLine("Test");
 
 	}
 
 	async Task ResetList()
 	{
 		await GetProducts();
-		await ProductContainer.RefreshDataAsync();
 		StateHasChanged();
 
 	}
@@ -38,20 +42,28 @@ partial class Products : ComponentBase
 	{
 		ProductList = new List<ProductDTO>();
 
-		var prod = await HttpClient.GetFromJsonAsync<ProductDTO[]>(HttpClient.BaseAddress + $"productById?id={CurrentProduct.ProductId}");
+		if (CurrentProduct.ProductId == null || CurrentProduct.ProductId.Length != 24)
+		{
+			return;
+		}
+		var prod = await HttpClient.GetFromJsonAsync<ProductDTO[]>($"productById?id={CurrentProduct.ProductId}");
 
-
-		ProductList.AddRange(prod);
+		if (prod.Length > 0)
+		{
+			ProductList.AddRange(prod);
+		}
 	}
 
 	async Task GetProdFromName()
 	{
 		ProductList = new List<ProductDTO>();
 
-		var prod = await HttpClient.GetFromJsonAsync<ProductDTO[]>(HttpClient.BaseAddress + $"productByName?name={CurrentProduct.Name}");
+		var prod = await HttpClient.GetFromJsonAsync<ProductDTO[]>($"productByName?name={CurrentProduct.Name}");
 
-
-		ProductList.AddRange(prod);
+		if (prod.Length > 0)
+		{
+			ProductList.AddRange(prod);
+		}
 	}
 
 	protected override async Task OnInitializedAsync()

@@ -1,0 +1,104 @@
+﻿@page "/CreateCustomer"
+
+@inject HttpClient HttpClient
+
+<h3>Create Customer</h3>
+
+<EditForm Model="Customer" OnValidSubmit="CreateNewCustomer">
+	<DataAnnotationsValidator />
+	<hr />
+	<div class="row m-2">
+		<label class="col-sm-2 col-form-label" for="firstname">First Name</label>
+		<div class="col-sm-10">
+			<InputText class="form-control mt-1" id="firstname" @bind-Value="Customer.FirstName"></InputText>
+		</div>
+	</div>
+
+	<div class="row m-2">
+		<label class="col-sm-2 col-form-label" for="lastname">Last Name</label>
+		<div class="col-sm-10">
+			<InputText class="form-control mt-1" id="lastname" @bind-Value="Customer.LastName"></InputText>
+		</div>
+	</div>
+
+	<div class="row m-2">
+		<label class="col-sm-2 col-form-label" for="email">Email</label>
+		<div class="col-sm-10">
+			<InputText class="form-control mt-1" id="email" @bind-Value="Customer.Email"></InputText>
+		</div>
+	</div>
+
+	<div class="row m-2">
+		<label class="col-sm-2 col-form-label" for="address">Address</label>
+		<div class="col-sm-10">
+			<InputText class="form-control mt-1" id="address" @bind-Value="Customer.Address"></InputText>
+		</div>
+	</div>
+
+	<div class="row m-2">
+		<label class="col-sm-2 col-form-label" for="phone">Phone Number</label>
+		<div class="col-sm-10">
+			<InputText class="form-control mt-1" id="phone" @bind-Value="Customer.Phone"></InputText>
+		</div>
+	</div>
+
+	<div class="text-center">
+		<button class="m-2 btn btn-primary">Create Customer</button>
+	</div>
+	<ValidationSummary />
+</EditForm>
+
+<h3>Update Customer</h3>
+
+<select id="SearchStateId" name="stateId" @onchange="GetByEmail" class="form-control">
+	<option>Choose A Product</option>
+	@foreach (var state in CustomerList)
+	{
+		<option value="@state.Email">@state.Email</option>
+	}
+</select>
+
+
+<EditForm Model="CustomerToUpdate" OnValidSubmit="UpdateCustomer">
+	<DataAnnotationsValidator />
+	<hr />
+	<div class="row m-2">
+		<label class="col-sm-2 col-form-label" for="firstname">First Name</label>
+		<div class="col-sm-10">
+			<InputText class="form-control mt-1" id="firstname" @bind-Value="CustomerToUpdate.FirstName"></InputText>
+		</div>
+	</div>
+
+	<div class="row m-2">
+		<label class="col-sm-2 col-form-label" for="lastname">Last Name</label>
+		<div class="col-sm-10">
+			<InputText class="form-control mt-1" id="lastname" @bind-Value="CustomerToUpdate.LastName"></InputText>
+		</div>
+	</div>
+
+	<div class="row m-2">
+		<label class="col-sm-2 col-form-label" for="email">Email</label>
+		<div class="col-sm-10">
+			<InputText class="form-control mt-1" id="email" @bind-Value="CustomerToUpdate.Email"></InputText>
+		</div>
+	</div>
+
+	<div class="row m-2">
+		<label class="col-sm-2 col-form-label" for="address">Address</label>
+		<div class="col-sm-10">
+			<InputText class="form-control mt-1" id="address" @bind-Value="CustomerToUpdate.Address"></InputText>
+		</div>
+	</div>
+
+	<div class="row m-2">
+		<label class="col-sm-2 col-form-label" for="phone">Phone Number</label>
+		<div class="col-sm-10">
+			<InputText class="form-control mt-1" id="phone" @bind-Value="CustomerToUpdate.Phone"></InputText>
+		</div>
+	</div>
+
+	<div class="text-center">
+		<button class="m-2 btn btn-primary">Update Customer</button>
+	</div>
+	<ValidationSummary />
+</EditForm>

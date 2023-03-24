@@ -1,13 +1,7 @@
 ﻿using MongoDB.Driver;
 using ProductDataAccess.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Lab2Webb.Shared.DTOs;
 using MongoDB.Bson;
-using MongoDB.Driver.Core.Clusters;
 
 namespace ProductDataAccess.Repositories
 {

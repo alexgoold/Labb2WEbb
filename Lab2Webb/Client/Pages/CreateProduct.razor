@@ -1,12 +1,5 @@
 ﻿@page "/CreateProducts"
-@using Microsoft.AspNetCore.Authorization
-@using Microsoft.AspNetCore.Components.WebAssembly.Authentication
-@using Lab2Webb.Shared
-@using Lab2Webb.Shared.DTOs
-@using MongoDB.Bson
 
-
-@inject NavigationManager _navigationManager
 @inject HttpClient HttpClient
 
 <h3>Create Product</h3>
@@ -125,7 +118,7 @@
 
 <h3>Delete Product</h3>
 
-<select id="ProductsByName" name="ProductName" @onchange="GetProdToDelete" class="form-control">
+<select id="ProductsByName" name="ProductName" @onchange="(GetProdToDelete)" class="form-control">
 	<option>Choose A Product</option>
 	@foreach (var product in ProductList)
 	{

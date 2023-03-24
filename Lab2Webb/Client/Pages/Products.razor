@@ -1,9 +1,7 @@
 ﻿@page "/products"
-@using Microsoft.AspNetCore.Authorization
-@using Microsoft.AspNetCore.Components.WebAssembly.Authentication
-@using Lab2Webb.Shared
+@using System.Data
 
-@inject NavigationManager _navigationManager
+
 @inject HttpClient HttpClient
 
 <h1 class="text-center">Products</h1>
@@ -12,11 +10,9 @@
 	<div class="col-3">
 		<h3>Get Product By Id</h3>
 
-		<EditForm Model="CurrentProduct" OnValidSubmit="GetProdFromId">
-			<DataAnnotationsValidator />
+		<EditForm Model="CurrentProduct" OnSubmit="GetProdFromId">
 			<InputText class="form-control m-2" @bind-Value="CurrentProduct.ProductId"></InputText>
 			<button>Search</button>
-			<ValidationSummary />
 		</EditForm>
 	</div>
 
@@ -27,11 +23,9 @@
 	<div class="col-3">
 		<h3>Get Product By Name</h3>
 
-		<EditForm Model="CurrentProduct" OnValidSubmit="GetProdFromName">
-			<DataAnnotationsValidator />
+		<EditForm Model="CurrentProduct" OnSubmit="GetProdFromName">
 			<InputText class="form-control m-2" @bind-Value="CurrentProduct.Name"></InputText>
 			<button>Search</button>
-			<ValidationSummary />
 		</EditForm>
 	</div>
 </div>
@@ -51,16 +45,17 @@
 			<th>Type</th>
 			<th>In Stock</th>
 			<th>Price</th>
+			<th>Product Number</th>
 	</tr>
 	</thead>
 
 	<tbody>
 	
 	
-	<Virtualize @ref="ProductContainer" Items="ProductList.OrderByDescending(p => p.Price).ToArray()" Context="product">
+	<Virtualize Items="ProductList.OrderByDescending(p => p.Price).ToArray()" Context="product">
 		<tr>
 			<td>
-				<img src="@product.ImgURL" alt="product image"/>
+				<img src="@product.ImgURL" width="100" height="100" alt="product image"/>
 			</td>
 			<td class="align-middle">
 				@product.Name
@@ -73,9 +68,13 @@
 			</td>
 			<td class="align-middle">
 				@product.Status
+					<button @onclick="() => UpdateStockStatus(product.ProductId, product, product.Status)" class="btn btn-info">Change</button>
 			</td>
 			<td class="align-middle">
 				@product.Price
+			</td>
+			<td class="align-middle">
+				@product.ProductId
 			</td>
 		</tr>
 	</Virtualize>

@@ -1,6 +1,5 @@
 ﻿using Lab2Webb.Shared.DTOs;
 using MongoDB.Bson;
-using MongoDB.Driver;
 using ProductDataAccess.Repositories;
 
 namespace Lab2Webb.Server.Extensions;
@@ -16,7 +15,7 @@ public static class WebApplicationEndpointExtensions
 
 		app.MapDelete("/deleteProduct", DeleteProductHandler);
 
-		app.MapPatch("/discontinuedProduct", DiscontinuedProduct);
+		app.MapPut("/discontinuedProduct", DiscontinuedProduct);
 
 		app.MapGet("/allProducts", AllProductsHandler);
 
@@ -32,6 +31,7 @@ public static class WebApplicationEndpointExtensions
 
 	private static async Task<IResult> ProductById(IProductRepository repo, ObjectId id)
 	{
+
 		return Results.Ok(await repo.GetProductById(id));
 	}
 
@@ -69,7 +69,7 @@ public static class WebApplicationEndpointExtensions
 		return Results.Ok();
 	}
 
-	public static async Task<IResult> DiscontinuedProduct(IProductRepository repo, ObjectId id, bool isDiscontinued)
+	public static async Task<IResult> DiscontinuedProduct(IProductRepository repo, ObjectId id, ProductDTO isDiscontinued)
 	{
 		await repo.DiscontinuedProduct(id, isDiscontinued);
 		return Results.Ok();

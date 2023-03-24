@@ -2,7 +2,6 @@ using Lab2Webb.Server.Data;
 using Lab2Webb.Server.Extensions;
 using Lab2Webb.Server.Models;
 using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.ResponseCompression;
 using Microsoft.EntityFrameworkCore;
 using ProductDataAccess.Repositories;
 

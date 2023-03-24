@@ -1,6 +1,5 @@
 ﻿using Lab2Webb.Shared.DTOs;
 using MongoDB.Bson;
-using ProductDataAccess.Models;
 using ProductDataAccess.Repositories;
 
 namespace Lab2Webb.Server.Extensions;
