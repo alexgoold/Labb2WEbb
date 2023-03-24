@@ -4,7 +4,7 @@ using ProductDataAccess.Repositories;
 
 namespace Lab2Webb.Server.Extensions;
 
-public static class WebApplicationEndpointExtensions
+public static class WebApplicationProductEndpointExtensions
 
 {
 	public static WebApplication MapProductEndpoints(this WebApplication app)
@@ -23,7 +23,6 @@ public static class WebApplicationEndpointExtensions
 
 		app.MapGet("/productById", ProductById);
 		
-
 		return app;
 	}
 

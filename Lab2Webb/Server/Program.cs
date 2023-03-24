@@ -57,8 +57,10 @@ app.UseRouting();
 
 app.UseIdentityServer();
 app.UseAuthorization();
+
 app.MapProductEndpoints();
 app.MapCustomerEndpoints();
+app.MapOrderEndpoints();
 
 
 app.MapRazorPages();

@@ -7,5 +7,9 @@ public interface IOrderRepository
 {
 	Task CreateOrder(ObjectId customerId, ProductDTO[] products);
 	Task DeleteOrder(ObjectId orderId);
-	
+
+	Task<OrderDTO[]> GetAllOrders();
+
+
+
 }

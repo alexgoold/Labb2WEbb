@@ -50,11 +50,11 @@
 
 <h3>Update Customer</h3>
 
-<select id="SearchStateId" name="stateId" @onchange="GetByEmail" class="form-control">
-	<option>Choose A Product</option>
-	@foreach (var state in CustomerList)
+<select @onchange="GetByEmail" class="form-control">
+	<option>Choose A Customer</option>
+	@foreach (var customer in CustomerList)
 	{
-		<option value="@state.Email">@state.Email</option>
+		<option value="@customer.Email">@customer.Email</option>
 	}
 </select>
 

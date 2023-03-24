@@ -9,10 +9,10 @@ namespace ProductDataAccess.Repositories
 	{
 		private readonly IMongoCollection<OrderModel> _orders;
 
-	
+
 		private readonly IProductRepository _productRepo = new ProductRepository();
 
-		private  readonly ICustomerRepository _customerRepo = new CustomerRepository();
+		private readonly ICustomerRepository _customerRepo = new CustomerRepository();
 
 		public OrderRepository()
 		{
@@ -25,14 +25,14 @@ namespace ProductDataAccess.Repositories
 			_orders =
 				database.GetCollection<OrderModel>("Orders",
 					new MongoCollectionSettings() { AssignIdOnInsert = true });
-			
+
 		}
 
 		public async Task CreateOrder(ObjectId customerId, ProductDTO[] products)
 		{
 			var orderAsModel = new OrderModel();
 
-			
+
 			orderAsModel.Products = products.Select(_productRepo.ConvertToModel).ToArray();
 
 			var customers = _customerRepo.GetAllCustomers().Result;
@@ -52,6 +52,47 @@ namespace ProductDataAccess.Repositories
 			await _orders.DeleteOneAsync(filter);
 		}
 
+		public async Task<OrderDTO[]> GetAllOrders()
+		{
+			var filter = Builders<OrderModel>.Filter.Empty;
+			var all = await _orders.FindAsync(filter);
+			var test = all.ToList().Select(ConvertToDto).ToArray();
+			return test;
+		}
 
+
+		public OrderModel ConvertToModel(OrderDTO dto)
+		{
+
+			if (dto.Id == null)
+			{
+				return new OrderModel()
+				{
+					Customer = _customerRepo.ConvertToModel(dto.Customer),
+					DateOrdered = dto.DateOrdered,
+					Products = dto.Products.Select(_productRepo.ConvertToModel).ToArray()
+				};
+			}
+
+			return new OrderModel()
+			{
+				Customer = _customerRepo.ConvertToModel(dto.Customer),
+				DateOrdered = dto.DateOrdered,
+				Products = dto.Products.Select(_productRepo.ConvertToModel).ToArray(),
+				Id = new ObjectId(dto.Id)
+			};
+
+		}
+
+		public OrderDTO ConvertToDto(OrderModel model)
+		{
+			return new OrderDTO()
+			{
+				Customer = _customerRepo.ConvertToDto(model.Customer),
+				DateOrdered = model.DateOrdered,
+				Products = model.Products.Select(_productRepo.ConvertToDto).ToArray(),
+				Id = model.Id.ToString(),
+			};
+		}
 	}
 }

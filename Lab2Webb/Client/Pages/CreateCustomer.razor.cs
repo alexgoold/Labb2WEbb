@@ -53,5 +53,13 @@ namespace Lab2Webb.Client.Pages
 			}
 
 		}
+
+		protected override async Task OnInitializedAsync()
+		{
+			await GetCustomers();
+
+			await base.OnInitializedAsync();
+
+		}
 	}
 }
