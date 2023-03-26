@@ -15,8 +15,7 @@ public static class WebApplicationCustomerEndpointExtensions
 		app.MapGet("/allCustomers", GetAllCustomersHandler);
 
 		app.MapGet("/getByEmail", GetByEmailHandler);
-
-
+		
 		return app;
 	}
 	
