@@ -43,6 +43,4 @@ public static class WebApplicationCustomerEndpointExtensions
 	{
 		return Results.Ok(await repo.GetCustomerByEmail(email));
 	}
-
-
-}
+	}
