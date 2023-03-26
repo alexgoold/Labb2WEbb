@@ -30,7 +30,7 @@ public static class WebApplicationProductEndpointExtensions
 
 	private static async Task<IResult> ProductById(IProductRepository repo, ObjectId id)
 	{
-
+		if (await repo.CheckExists(id) == false) return Results.NotFound();
 		return Results.Ok(await repo.GetProductById(id));
 	}
 
